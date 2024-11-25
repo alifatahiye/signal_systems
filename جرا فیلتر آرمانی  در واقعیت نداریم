@@ -1,0 +1,37 @@
+ import numpy as np
+import matplotlib.pyplot as plt
+
+# تنظیمات اولیه
+fs = 1.0  # فرکانس نمونه‌برداری (فرضی)
+fc = 0.2  # فرکانس قطع (20% از fs)
+
+# محور فرکانس
+f = np.linspace(-0.5, 0.5, 1000)
+H = np.where(np.abs(f) <= fc, 1, 0)  # پاسخ فرکانسی فیلتر پایین‌گذر آرمانی
+
+# پاسخ زمانی (سینک)
+t = np.linspace(-50, 50, 1000)
+h = 2 * fc * np.sinc(2 * fc * t)
+
+# رسم پاسخ فرکانسی
+plt.figure(figsize=(14, 6))
+
+plt.subplot(1, 2, 1)
+plt.plot(f, H, label="Ideal Low-Pass Filter")
+plt.title("Frequency Response (Ideal)")
+plt.xlabel("Frequency (normalized)")
+plt.ylabel("Magnitude")
+plt.grid(True)
+plt.legend()
+
+# رسم پاسخ زمانی
+plt.subplot(1, 2, 2)
+plt.plot(t, h, label="Impulse Response (sinc)", color="orange")
+plt.title("Time-Domain Response")
+plt.xlabel("Time (samples)")
+plt.ylabel("Amplitude")
+plt.grid(True)
+plt.legend()
+
+plt.tight_layout()
+plt.show()
